@@ -1,0 +1,46 @@
+local DISPLAY_WIDTH = sys.get_config_int("display.width")
+local DISPLAY_HEIGHT = sys.get_config_int("display.height")
+
+local URLS = { "bg#sprite", "bopz#sprite" }
+
+local LIGHT_COLOR = vmath.vector4(1.0, 0.8, 0.6, 1.0)
+local AMBIENT_COLOR = vmath.vector4(0.6, 0.6, 1.0, 0.7)
+local LIGHT_FALLOFF = vmath.vector4(0.4, 3.0, 20.0, 0)
+
+local function setup_lights()
+	for _,url in pairs(URLS) do
+		go.set(url, "light_color", LIGHT_COLOR)
+		go.set(url, "ambient_color", AMBIENT_COLOR)
+		go.set(url, "falloff", LIGHT_FALLOFF)
+	end
+end
+
+local function update_lights()
+	local w,h = window.get_size()
+	local wr = w / DISPLAY_WIDTH
+	local hr = h / DISPLAY_HEIGHT
+	local light = go.get_position("light")
+	for _,url in pairs(URLS) do
+		go.set(url, "resolution.x", w)
+		go.set(url, "resolution.y", h)
+		go.set(url, "light_pos.x", wr * light.x / w)
+		go.set(url, "light_pos.y", hr * light.y / h)
+		go.set(url, "light_pos.z", light.z)
+	end
+end
+
+function init(self)
+	setup_lights()
+	--go.animate("light", "position.x", go.PLAYBACK_LOOP_PINGPONG, DISPLAY_WIDTH, go.EASING_INOUTQUAD, 10, 0)
+	--go.animate("light", "position.y", go.PLAYBACK_LOOP_PINGPONG, DISPLAY_HEIGHT, go.EASING_INOUTQUAD, 20, 0)
+	msg.post(".", "acquire_input_focus")
+end
+
+function update(self, dt)
+	update_lights()
+end
+
+function on_input(self, action_id, action)
+	local light_pos = vmath.vector3(action.x, action.y, 0.075)
+	go.set_position(light_pos, "light")
+end
