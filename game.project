@@ -12,5 +12,5 @@ height = 640
 input_method = HiddenInputField
 
 [project]
-title = sample-normal-maps-2d
+title = Normal Maps 2D
 
