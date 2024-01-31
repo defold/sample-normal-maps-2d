@@ -2,6 +2,7 @@
 
 // attributes from vertex shader
 varying mediump vec2 var_texcoord0;
+varying mediump vec2 var_texcoord1;
 
 // our texture samplers
 uniform sampler2D diffuse;   // diffuse map
@@ -19,7 +20,7 @@ void main() {
     vec4 diffuse_rgba = texture2D(diffuse, var_texcoord0);
 
     // RGB of our normal map
-    vec3 normal_rgb = texture2D(normal, var_texcoord0).rgb;
+    vec3 normal_rgb = texture2D(normal, var_texcoord1).rgb;
 
     // the delta position of light
     vec3 light_dir = vec3(light_pos.xy - (gl_FragCoord.xy / resolution.xy), light_pos.z);

@@ -1,6 +1,6 @@
 name: "sprite_normal"
 tags: "tile"
-vertex_program: "/builtins/materials/sprite.vp"
+vertex_program: "/assets/sprite_normal.vp"
 fragment_program: "/assets/sprite_normal.fp"
 vertex_space: VERTEX_SPACE_WORLD
 vertex_constants {
